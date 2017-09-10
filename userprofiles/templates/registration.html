@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-md-8 Link-form">
+
+<h1>Create account</h1>
+
+<form  action="" method="POST">
+    {% csrf_token %}
+
+    {% for field in form  %}
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>       
+            {% endfor %}
+        {% endif %}
+        <div class="form-group">
+        <label for="{{ field.name }}">{{ field.label}}</label>
+        {{ field }}
+        </div>
+    {% endfor %}
+    <input type="submit" class="btn btn-light">
+</form>
+
+</div>
+{% endblock content %}

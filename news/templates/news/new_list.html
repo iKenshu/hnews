@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<ol class="list-group">
+    {% for new in News %}
+        <li class="list-group-item">
+            <!-- <form action="{% url 'New:vote' new.id %}" method="POST">
+            {% csrf_token %}
+               <input type="submit" value="upvote">
+               {{ new.vote }}
+            </form> -->
+            <a class="badge badge-light icon-chevron-up" href="{% url 'New:vote' new.id %}">
+                <div class="Link-icon"></div>
+            </a>
+            <a href="{{ new.url }}">{{ new.title }}</a>
+            <div class="Link-detail">
+                <span>{{ new.vote }} points</span> |
+                <span>submited by {{ new.user }}</span> |
+                <a class="Link-link" href="{% url 'New:detail' new.id %}">comments: {{ new.comments.count }}</a>
+            </div>
+        </li>
+    {% endfor %}
+</ol>
+
+{% endblock content %}

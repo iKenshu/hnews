@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <a class="badge badge-light icon-chevron-up" href="{% url 'New:vote' new.id %}">
+        <div class="Link-icon"></div>
+    </a>
+    <a href="{{ new.url }}">{{ new.title }}</a>
+    <div class="Link-detail">
+        <span>{{ new.vote }} points</span> |
+        <span>Submited by {{ new.user }}</span> |
+        <a href="{% url "New:edit" new.id %}">edit</a> |
+        <a href="{% url "New:delete" new.id %}">delete</a> |
+        <a class="Link-link" href="{% url 'New:detail' new.id %}">Comments: {{ new.comments.count }}</a>
+    </div>    
+
+    <a class="btn btn-light btn-sm" href="{% url 'New:comment' new.id %}">Add new comment</a>
+
+    {% for comment in new.comments.all %}
+        <ul class="list-group">
+            <li class="list-group-item">{{ comment }}
+                <div class="Link-detail">
+                    {{ comment.author }}
+                </div>
+            </li>
+        </ul>
+    {% endfor %}
+
+{% endblock content %}

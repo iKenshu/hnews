@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    
+    <h1>New comment {{comments__post.title}}</h1>
+    <p> {{New.url}}</p>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% for field in form  %}
+            <div class="form-group">
+            {{ field.errors }}
+            <label for="{{ field.name }}">comment</label>
+            {{ field }}
+            </div>
+        {% endfor %}
+        <input class="btn btn-light" type="submit">
+    </form>
+
+{% endblock content %}
