@@ -10,8 +10,10 @@
         <span>{{ new.vote }} points</span> |
         <span>Submited by {{ new.user }}</span> |
         {% if user.is_authenticated %}
-        <a href="{% url 'New:edit' new.id %}">edit</a> |
-        <a href="{% url 'New:delete' new.id %}">delete</a> |
+            {% if user == new.user %}
+               <a href="{% url 'New:edit' new.id %}">edit</a> |
+               <a href="{% url 'New:delete' new.id %}">delete</a> |                
+            {% endif %}
         {% endif %}
         <a class="Link-link" href="{% url 'New:detail' new.id %}">Comments: {{ new.comments.count }}</a>
     </div>    
