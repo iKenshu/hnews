@@ -4,11 +4,39 @@ from .views import NewList, NewAdd, NewEdit, NewDetail, VoteView, CommentView, N
 
 app_name = 'New'
 urlpatterns = [
-    url(r'^$', NewList.as_view(), name='list'),
-    url(r'^add/', NewAdd.as_view(), name='add'),
-    url(r'^edit/(?P<pk>\d+)/$', NewEdit.as_view(), name='edit'),
-    url(r'^delete/(?P<pk>\d+)/$', NewDelete.as_view(), name='delete'),
-    url(r'^detail/(?P<pk>\d+)/$', NewDetail.as_view(), name='detail'),
-    url(r'^detail/(?P<pk>\d+)/comment$', CommentView.as_view(), name='comment'),
-    url(r'^vote/(?P<pk>\d+)/$', VoteView.as_view(), name='vote'),
-]   
+    url(
+        regex=r'^$',
+        view=NewList.as_view(),
+        name='list'
+    ),
+    url(
+        regex=r'^add/',
+        view=NewAdd.as_view(),
+        name='add'
+    ),
+    url(
+        regex=r'^edit/(?P<pk>\d+)/$',
+        view=NewEdit.as_view(),
+        name='edit'
+    ),
+    url(
+        regex=r'^delete/(?P<pk>\d+)/$',
+        view=NewDelete.as_view(),
+        name='delete'
+    ),
+    url(
+        regex=r'^detail/(?P<pk>\d+)/$',
+        view=NewDetail.as_view(),
+        name='detail'
+    ),
+    url(
+        regex=r'^detail/(?P<pk>\d+)/comment$',
+        view=CommentView.as_view(),
+        name='comment'
+    ),
+    url(
+        regex=r'^vote/(?P<pk>\d+)/$',
+        view=VoteView.as_view(),
+        name='vote'
+    ),
+]
