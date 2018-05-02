@@ -1,6 +1,14 @@
 from django.conf.urls import url, include
 
-from .views import NewList, NewAdd, NewEdit, NewDetail, VoteView, CommentView, NewDelete
+from .views import (
+    NewList,
+    NewAdd,
+    NewEdit,
+    NewDetail,
+    VoteView,
+    CommentView,
+    NewDelete,
+)
 
 app_name = 'New'
 urlpatterns = [
