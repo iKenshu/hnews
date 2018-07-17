@@ -8,6 +8,7 @@ from .models import Profile
 
 # Create your views here.
 
+
 class SignUpView(CreateView):
     model = Profile
     form_class = SignUpForm
@@ -21,9 +22,11 @@ class SignUpView(CreateView):
         login(self.request, user)
         return redirect('New:list')
 
+
 class SignInView(LoginView):
     template_name = 'login.html'
     authentication_form = SignInForm
-    
+
+
 class SignOutView(LogoutView):
     pass

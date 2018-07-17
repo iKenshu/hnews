@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -10,9 +11,21 @@ from .forms import NewForm, VoteForm, CommentForm
 
 # Create your views here.
 
+
 class NewList(ListView):
-    model = New
     context_object_name = 'News'
+    template_name = 'news/new_list.html'
+
+    def get_queryset(self, *args, **kwargs):
+        qs = New.objects.all()
+        query = self.request.GET.get('q', None)
+        if query:
+            qs = qs.filter(
+                Q(title__icontains=query) |
+                Q(user__username__icontains=query)
+            )
+        return qs
+
 
 class NewAdd(CreateView):
     model = New
@@ -23,6 +36,7 @@ class NewAdd(CreateView):
         form.save()
         return redirect('New:list')
 
+
 class NewEdit(UpdateView):
     model = New
     form_class = NewForm
@@ -30,19 +44,21 @@ class NewEdit(UpdateView):
     def get_success_url(self):
         return reverse_lazy('New:detail', args=(self.object.id, ))
 
+
 class NewDelete(DeleteView):
     model = New
     success_url = reverse_lazy('New:list')
 
     def post(self, request, *args, **kwargs):
         if "cancel" in request.POST:
-            #Aqui deberia pasarse la url mas el self.kwargs['pk ']
             return reverse_lazy('New:detail', kwargs={'pk': self.kwargs['pk']})
         else:
             return super(NewDelete, self).post(request, *args, **kwargs)
 
+
 class NewDetail(DetailView):
     model = New
+
 
 class NewVote(UpdateView):
     model = New
@@ -55,6 +71,7 @@ class NewVote(UpdateView):
         form.save()
         return redirect('New:list')
 
+
 class VoteView(RedirectView):
     def get(self, request, *args, **kwargs):
         pk = self.kwargs['pk']
@@ -65,21 +82,21 @@ class VoteView(RedirectView):
             if user.is_authenticated():
                 if new.vote > 0:
                     new.vote = new.vote + 1
-                    new.save() 
+                    new.save()
                     return redirect('New:list')
             return redirect('Profile:sign_up')
 
+
 @method_decorator(login_required, name='dispatch')
 class CommentView(CreateView):
-     model = Comment
-     form_class = CommentForm
+    model = Comment
+    form_class = CommentForm
 
-     def get_success_url(self):
+    def get_success_url(self):
         return reverse_lazy('New:list')
 
-     def form_valid(self, form):
+    def form_valid(self, form):
         form.instance.author = self.request.user
         form.instance.new = New.objects.get(pk=self.kwargs['pk'])
         form.save()
         return super(CommentView, self).form_valid(form)
-
