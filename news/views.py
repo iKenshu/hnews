@@ -73,13 +73,16 @@ class NewVote(UpdateView):
 
 
 class VoteView(RedirectView):
+
     def get(self, request, *args, **kwargs):
         pk = self.kwargs['pk']
         user = self.request.user
         new = get_object_or_404(New, pk=pk)
+        print(new.vote)
 
         if user and new.vote:
             if user.is_authenticated():
+                print(new.user)
                 if new.vote > 0:
                     new.vote = new.vote + 1
                     new.save()

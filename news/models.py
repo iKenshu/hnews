@@ -1,9 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import User
+
+from userprofiles.models import Profile
 
 
 class New(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(Profile)
     title = models.CharField(max_length=255)
     url = models.URLField()
     vote = models.IntegerField(default=1)
@@ -17,7 +18,7 @@ class New(models.Model):
 
 class Comment(models.Model):
     new = models.ForeignKey(New, related_name='comments')
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(Profile)
     text = models.TextField()
     created_date = models.DateTimeField(auto_now=True)
 
